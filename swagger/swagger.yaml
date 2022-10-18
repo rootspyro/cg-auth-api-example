@@ -1,0 +1,199 @@
+swagger: "2.0"
+info:
+  title: cg-auth-api
+  description: cidesa group api for user authorization
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      description: get list of users
+      tags:
+        - Users
+      parameters:
+        - name: limit
+          type: integer
+          in: query
+          default: 20
+        - name: offset
+          type: integer
+          in: query
+        - name: username
+          type: string
+          in: query
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                default: success
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/user"
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+            
+    post:
+      description: create a new user
+      tags:
+        - Users
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              passwordHash:
+                type: string
+              email: 
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                default: success
+              data:
+                $ref: "#/definitions/user"
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+                
+  /users/{username}:
+    get:
+      description: get a single user by username
+      tags:
+        - Users
+      parameters:
+        - name: username
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: successful operation
+          schema: 
+            type: object
+            properties:
+              status:
+                type: string
+              data:
+                $ref: "#/definitions/user"
+                
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+    patch:
+      description: update a single user
+      tags:
+        - Users
+      parameters:
+        - name: username
+          type: string
+          in: path
+          required: true
+
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              passwordHash:
+                type: string
+              email: 
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+                
+      responses:
+        200:
+          description: successful operation 
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                default: success
+              data:
+                $ref: "#/definitions/user"
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+    
+    delete:
+      description: delete a single user
+      tags:
+        - Users
+      parameters:
+        - name: username
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                default: success
+              data:
+                type: string
+                description: operation message
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+          
+definitions:
+  error:
+    type: object
+    properties:
+      status:
+        type: string
+        default: error
+      data:
+        type: string
+        description: message of what went wrong
+  user:
+    type: object
+    properties:
+      id:
+        type: integer
+        readOnly: true
+      username:
+        type: string
+      email: 
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+        
+tags:
+  - name: Users
+    description: users endpoints
