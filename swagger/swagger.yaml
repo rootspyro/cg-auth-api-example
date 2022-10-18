@@ -7,6 +7,7 @@ paths:
   /users:
     get:
       description: get list of users
+      operationId: getUsers
       tags:
         - Users
       parameters:
@@ -40,6 +41,7 @@ paths:
             
     post:
       description: create a new user
+      operationId: createUser
       tags:
         - Users
       parameters:
@@ -78,6 +80,7 @@ paths:
   /users/{username}:
     get:
       description: get a single user by username
+      operationId: getUserByUsername
       tags:
         - Users
       parameters:
@@ -102,6 +105,7 @@ paths:
             $ref: "#/definitions/error"
     patch:
       description: update a single user
+      operationId: updateUser 
       tags:
         - Users
       parameters:
@@ -145,6 +149,7 @@ paths:
     
     delete:
       description: delete a single user
+      operationId: deleteUser
       tags:
         - Users
       parameters:
