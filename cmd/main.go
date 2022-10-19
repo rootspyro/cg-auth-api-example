@@ -12,9 +12,9 @@ import (
 )
 
 
-func main() {
+var portFlag = flag.Int("port", 3000, "Port to run this service on")
 
-	var portFlag = flag.Int("port", 3000, "Port to run this service on")
+func main() {
 
 	// load embedded swagger file
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")
