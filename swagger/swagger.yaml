@@ -25,19 +25,11 @@ paths:
         200:
           description: successful operation
           schema:
-            type: object
-            properties:
-              status:
-                type: string
-                default: success
-              data:
-                type: array
-                items:
-                  $ref: "#/definitions/user"
+            $ref: "#/definitions/users-response"
         default:
           description: generic error response
           schema:
-            $ref: "#/definitions/error"
+            $ref: "#/definitions/default"
             
     post:
       description: create a new user
@@ -65,17 +57,11 @@ paths:
         200:
           description: successful operation
           schema:
-            type: object
-            properties:
-              status:
-                type: string
-                default: success
-              data:
-                $ref: "#/definitions/user"
+            $ref: "#/definitions/user-response"
         default:
           description: generic error response
           schema:
-            $ref: "#/definitions/error"
+            $ref: "#/definitions/default"
                 
   /users/{username}:
     get:
@@ -92,17 +78,11 @@ paths:
         200:
           description: successful operation
           schema: 
-            type: object
-            properties:
-              status:
-                type: string
-              data:
-                $ref: "#/definitions/user"
-                
+            $ref: "#/definitions/user-response"
         default:
           description: generic error response
           schema:
-            $ref: "#/definitions/error"
+            $ref: "#/definitions/default"
     patch:
       description: update a single user
       operationId: updateUser 
@@ -135,17 +115,11 @@ paths:
         200:
           description: successful operation 
           schema:
-            type: object
-            properties:
-              status:
-                type: string
-                default: success
-              data:
-                $ref: "#/definitions/user"
+            $ref: "#/definitions/user-response"
         default:
           description: generic error response
           schema:
-            $ref: "#/definitions/error"
+            $ref: "#/definitions/default"
     
     delete:
       description: delete a single user
@@ -172,15 +146,19 @@ paths:
         default:
           description: generic error response
           schema:
-            $ref: "#/definitions/error"
+            $ref: "#/definitions/default"
           
+tags:
+  - name: Users
+    description: users endpoints
+
 definitions:
-  error:
+  default:
     type: object
     properties:
       status:
         type: string
-        default: error
+        description: success or error
       data:
         type: string
         description: message of what went wrong
@@ -189,7 +167,6 @@ definitions:
     properties:
       id:
         type: integer
-        readOnly: true
       username:
         type: string
       email: 
@@ -198,7 +175,21 @@ definitions:
         type: string
       lastname:
         type: string
+    
+  user-response:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        $ref: "#/definitions/user"
         
-tags:
-  - name: Users
-    description: users endpoints
+  users-response:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/user"
