@@ -3,6 +3,7 @@ info:
   title: cg-auth-api
   description: cidesa group api for user authorization
   version: 1.0.0
+basePath: /api/v1
 paths:
   /users:
     get:

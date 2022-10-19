@@ -24,6 +24,7 @@ func init() {
     "title": "cg-auth-api",
     "version": "1.0.0"
   },
+  "basePath": "/api/v1",
   "paths": {
     "/users": {
       "get": {
@@ -313,6 +314,7 @@ func init() {
     "title": "cg-auth-api",
     "version": "1.0.0"
   },
+  "basePath": "/api/v1",
   "paths": {
     "/users": {
       "get": {
