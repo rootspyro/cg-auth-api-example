@@ -46,7 +46,7 @@ func ( impl *GetUsersImpl ) Handle(params users.GetUsersParams) middleware.Respo
 
 	} else {
 
-		var realPayload []*models.User
+		var users_list []*models.User
 
 		for rows.Next(){
 
@@ -65,16 +65,16 @@ func ( impl *GetUsersImpl ) Handle(params users.GetUsersParams) middleware.Respo
 				Firstname: user.firstname,
 				Lastname: user.lastname,
 			}
-			realPayload = append(realPayload, &userResponse)
+			users_list = append(users_list, &userResponse)
 		}
 
 
-		response := &models.UsersResponse{
+		payload := &models.UsersResponse{
 			Status: "success",
-			Data: realPayload,
+			Data: users_list,
 		}
 
-		return users.NewGetUsersOK().WithPayload(response)
+		return users.NewGetUsersOK().WithPayload(payload)
 	}
 	
 }

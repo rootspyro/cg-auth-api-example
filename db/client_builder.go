@@ -33,7 +33,6 @@ func NewClientBuilder(_host string,_port string,_db string, _user string, _passw
 
 func (b *ClientBuilder) BuildSqlClient() *sql.DB {
 
-	//connString := "Driver={PostgreSQL};Server=localhost;Port=5434;Database=auth-api;Uid=rootspyro;Pwd=Fyy1I3xe7ssaRzyPla8obAXyJ;"
 	connString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", b.host, b.port, b.username, b.password, b.dbName)
 	db, err := sql.Open("postgres", connString)
 
