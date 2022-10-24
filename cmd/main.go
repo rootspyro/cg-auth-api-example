@@ -5,6 +5,7 @@ import (
 	"auth-api-example/gen/restapi"
 	"auth-api-example/gen/restapi/operations"
 	userhandlers "auth-api-example/handlers/user_handlers"
+	"auth-api-example/middlewares"
 	"flag"
 	"log"
 	"os"
@@ -51,10 +52,13 @@ func main() {
 	dbClient := clientBuilder.BuildSqlClient()
 	defer dbClient.Close()
 
-
 	//handlers
 	api.UsersGetUsersHandler = userhandlers.NewGetUserImpl(dbClient)
 	api.UsersGetUserByUsernameHandler = userhandlers.NewSingleUserImpl()
+
+	//middlerwares
+	api.AddMiddlewareFor("GET", "/users", middlewares.EnsureValidToken())
+	api.AddMiddlewareFor("GET", "/users/{username}", middlewares.EnsureValidToken())
 
 	// parse flags
 	flag.Parse()
