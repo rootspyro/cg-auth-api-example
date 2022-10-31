@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"auth-api-example/gen/restapi/operations/auth"
 	"auth-api-example/gen/restapi/operations/users"
 )
 
@@ -44,6 +45,9 @@ func NewCgAuthAPIAPI(spec *loads.Document) *CgAuthAPIAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		AuthAuthorizeRequestHandler: auth.AuthorizeRequestHandlerFunc(func(params auth.AuthorizeRequestParams) middleware.Responder {
+			return middleware.NotImplemented("operation auth.AuthorizeRequest has not yet been implemented")
+		}),
 		UsersCreateUserHandler: users.CreateUserHandlerFunc(func(params users.CreateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.CreateUser has not yet been implemented")
 		}),
@@ -95,6 +99,8 @@ type CgAuthAPIAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// AuthAuthorizeRequestHandler sets the operation handler for the authorize request operation
+	AuthAuthorizeRequestHandler auth.AuthorizeRequestHandler
 	// UsersCreateUserHandler sets the operation handler for the create user operation
 	UsersCreateUserHandler users.CreateUserHandler
 	// UsersDeleteUserHandler sets the operation handler for the delete user operation
@@ -182,6 +188,9 @@ func (o *CgAuthAPIAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.AuthAuthorizeRequestHandler == nil {
+		unregistered = append(unregistered, "auth.AuthorizeRequestHandler")
+	}
 	if o.UsersCreateUserHandler == nil {
 		unregistered = append(unregistered, "users.CreateUserHandler")
 	}
@@ -285,6 +294,10 @@ func (o *CgAuthAPIAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/authorize"] = auth.NewAuthorizeRequest(o.context, o.AuthAuthorizeRequestHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}

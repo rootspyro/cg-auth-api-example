@@ -4,8 +4,11 @@ import (
 	"auth-api-example/db"
 	"auth-api-example/gen/restapi"
 	"auth-api-example/gen/restapi/operations"
+	authhandlers "auth-api-example/handlers/auth_handlers"
 	userhandlers "auth-api-example/handlers/user_handlers"
-	"auth-api-example/middlewares"
+	"auth-api-example/opa"
+
+	//"auth-api-example/middlewares"
 	"flag"
 	"log"
 	"os"
@@ -18,6 +21,14 @@ import (
 
 
 func main() {
+
+	//OPA
+	opaConf := opa.NewOPA()
+	regoQuery, err := opaConf.NewOpaQuery()
+
+	if(err != nil) {
+		log.Fatalln(err)
+	}
 
 	//load env variables
 	godotenv.Load()
@@ -55,10 +66,11 @@ func main() {
 	//handlers
 	api.UsersGetUsersHandler = userhandlers.NewGetUserImpl(dbClient)
 	api.UsersGetUserByUsernameHandler = userhandlers.NewSingleUserImpl()
+	api.AuthAuthorizeRequestHandler = authhandlers.NewAuthImpl(regoQuery)
 
 	//middlerwares
-	api.AddMiddlewareFor("GET", "/users", middlewares.EnsureValidToken())
-	api.AddMiddlewareFor("GET", "/users/{username}", middlewares.EnsureValidToken())
+	//api.AddMiddlewareFor("GET", "/users", middlewares.EnsureValidToken())
+	//api.AddMiddlewareFor("GET", "/users/{username}", middlewares.EnsureValidToken())
 
 	// parse flags
 	flag.Parse()

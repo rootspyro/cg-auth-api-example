@@ -26,6 +26,38 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/authorize": {
+      "post": {
+        "description": "validate request",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "authorizeRequest",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/auth-request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/auth-response"
+            }
+          },
+          "default": {
+            "description": "generic error response",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "description": "get list of users",
@@ -241,6 +273,47 @@ func init() {
     }
   },
   "definitions": {
+    "auth-request": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "description": "GET, POST, PATCH or DELETE...",
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          }
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "auth-response": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "default": {
       "type": "object",
       "properties": {
@@ -304,6 +377,10 @@ func init() {
     {
       "description": "users endpoints",
       "name": "Users"
+    },
+    {
+      "description": "request authorization endpoint",
+      "name": "Auth"
     }
   ]
 }`))
@@ -316,6 +393,38 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/authorize": {
+      "post": {
+        "description": "validate request",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "authorizeRequest",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/auth-request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/auth-response"
+            }
+          },
+          "default": {
+            "description": "generic error response",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "description": "get list of users",
@@ -531,6 +640,75 @@ func init() {
     }
   },
   "definitions": {
+    "AuthRequestRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "description": "GET, POST, PATCH or DELETE...",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "AuthRequestUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "AuthResponseData": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "auth-request": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "description": "GET, POST, PATCH or DELETE...",
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          }
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "auth-response": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "default": {
       "type": "object",
       "properties": {
@@ -594,6 +772,10 @@ func init() {
     {
       "description": "users endpoints",
       "name": "Users"
+    },
+    {
+      "description": "request authorization endpoint",
+      "name": "Auth"
     }
   ]
 }`))
