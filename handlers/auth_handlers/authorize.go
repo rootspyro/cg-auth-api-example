@@ -25,6 +25,8 @@ func NewAuthImpl( query rego.PreparedEvalQuery ) auth.AuthorizeRequestHandler {
 
 func ( impl *AuthorizeImpl ) Handle( parameters auth.AuthorizeRequestParams ) middleware.Responder{
 
+	log.Println(impl.opa.Modules())
+
 	body := parameters.Body
 
 	ctx := context.TODO()
